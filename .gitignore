@@ -1,0 +1,9 @@
+# package directories
+node_modules
+
+# output files
+dist
+out
+
+# macOS
+.DS_Store
