@@ -22,6 +22,7 @@
       /* Specify type package names to be included without being referenced in a source file. */
       "react",
       "react-dom",
+      "styled-components"
     ],
     "resolveJsonModule": true /* Enable importing .json files */,
 
@@ -44,6 +45,6 @@
     /*** Completeness ***/
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "include": ["./**/*.ts", "./**/*.tsx"],
+  "include": ["./src/**/*.ts", "./src/**/*.tsx"],
   "exclude": ["node_modules"]
 }
