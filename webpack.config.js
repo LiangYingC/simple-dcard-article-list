@@ -28,4 +28,13 @@ module.exports = {
       template: './src/index.html',
     }),
   ],
+  devServer: {
+    hot: true,
+    proxy: {
+      ['/v2/posts']: {
+        target: 'https://www.dcard.tw',
+        changeOrigin: true,
+      },
+    },
+  },
 };
