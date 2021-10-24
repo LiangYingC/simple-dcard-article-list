@@ -42,12 +42,12 @@
     "react/react-in-jsx-scope": 0, // Can use JSX without import React
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "@typescript-eslint/explicit-function-return-type": "warn",
     "@typescript-eslint/no-use-before-define": "error",
     "@typescript-eslint/no-explicit-any": "warn",
     "@typescript-eslint/member-delimiter-style": "warn",
     "@typescript-eslint/no-var-requires": "warn",
     "@typescript-eslint/no-empty-function": "warn",
+    "@typescript-eslint/explicit-function-return-type": "off",
     "no-console": "warn",
     "import/no-unresolved": [
       // Can use import form '@XXX'
