@@ -26,6 +26,14 @@
   "settings": {
     "react": {
       "version": "detect" // Tells eslint-plugin-react to automatically detect the version of React which u install to use.
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".ts",
+          ".tsx"
+        ]
+      }
     }
   },
   "rules": {
