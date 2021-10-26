@@ -30,6 +30,15 @@ const Excerpt = styled.p`
   overflow: hidden;
 `;
 
+const filterDuplicateIdArticles = (data: Article[]) => {
+  const temp: { [key: string]: boolean } = {};
+  return data.filter(({ id }) => {
+    if (temp[id]) return false;
+    temp[id] = true;
+    return true;
+  });
+};
+
 interface Article {
   id: number;
   title: string;
@@ -53,6 +62,8 @@ const Articles: FC = () => {
     fetchMoreItemsFn: fetchArticles,
   });
 
+  const uniqueArticles = filterDuplicateIdArticles(allArticles);
+
   useEffect(() => {
     const articlesQty = allArticles.length;
     if (articlesQty > 0) {
@@ -62,7 +73,7 @@ const Articles: FC = () => {
   }, [allArticles]);
   return (
     <ArticlesWrapper>
-      {allArticles.map(({ id, title, excerpt }) => {
+      {uniqueArticles.map(({ id, title, excerpt }) => {
         return (
           <Article key={id}>
             <Title>{title}</Title>
