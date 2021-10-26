@@ -1,4 +1,4 @@
-const debounce = <T extends Function>(callback: T, delay: number) => {
+const debounce = <T extends Function>(func: T, delay: number) => {
   let timer: ReturnType<typeof setTimeout>;
 
   const debounceFunc = () => {
@@ -7,7 +7,7 @@ const debounce = <T extends Function>(callback: T, delay: number) => {
     }
 
     timer = setTimeout(() => {
-      callback();
+      func();
     }, delay);
   };
 
