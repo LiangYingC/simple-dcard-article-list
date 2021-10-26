@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import debounce from '../libs/debounce';
 
 interface UseInfiniteScrollParams<T> {
   newItems: T[];
@@ -25,15 +26,17 @@ const useInfiniteScroll = <T>({ newItems, fetchMoreItemsFn }: UseInfiniteScrollP
     }
   }, [isFetchMore, fetchMoreItemsFn]);
 
-  function handleScroll() {
+  const handleScroll = () => {
     if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !isFetchMore) {
       setIsFetchMore(true);
     }
-  }
+  };
+
+  const handleScrollWithDebounce = debounce(handleScroll, 20);
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScrollWithDebounce);
+    return () => window.removeEventListener('scroll', handleScrollWithDebounce);
   }, []);
 
   return { items, isFetchMore, setIsFetchMore };
