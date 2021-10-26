@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import GlobalStyle from './styles/globalStyle';
+import useLazyFetch from './hooks/useLazyFetch';
 import useInfiniteScroll from './hooks/useInfiniteScroll';
 
 const Articles = styled.div`
@@ -37,49 +38,35 @@ interface Article {
 }
 
 const App: FC = () => {
-  console.log('render');
-  const [articles, setArticles] = useState<Article[]>([]);
   const [lastArticleId, setLastArticleId] = useState<number | null>(null);
-  const { isFetchMore, setIsFetchMore } = useInfiniteScroll();
-
   const articlesApiUrl =
     lastArticleId === null
       ? popularArticlesApiUrl
       : `${popularArticlesApiUrl}&before=${lastArticleId}`;
 
-  // first screen article data fetch
-  useEffect(() => {
-    setIsFetchMore(true);
-  }, []);
+  const { data: newArticles, fetchData: fetchArticles } = useLazyFetch<Article[]>({
+    url: articlesApiUrl,
+    initialData: [],
+  });
 
-  // when turn on isFetchMore will fetch more articles
-  useEffect(() => {
-    if (isFetchMore) {
-      fetch(articlesApiUrl)
-        .then(result => result.json())
-        .then(newArticles => {
-          setArticles(prevArticles => {
-            return [...prevArticles, ...newArticles];
-          });
-          setIsFetchMore(false);
-        });
-    }
-  }, [articlesApiUrl, isFetchMore, setIsFetchMore]);
+  const { items: allArticles } = useInfiniteScroll<Article>({
+    newItems: newArticles,
+    fetchMoreItemsFn: fetchArticles,
+  });
 
-  // when get new articles data will update lastArticleId
   useEffect(() => {
-    const articlesQty = articles.length;
+    const articlesQty = allArticles.length;
     if (articlesQty > 0) {
-      const newlastArticleId = articles[articlesQty - 1].id;
+      const newlastArticleId = allArticles[articlesQty - 1].id;
       setLastArticleId(newlastArticleId);
     }
-  }, [articles]);
+  }, [allArticles]);
 
   return (
     <>
       <GlobalStyle />
       <Articles>
-        {articles.map(({ id, title, excerpt }) => {
+        {allArticles.map(({ id, title, excerpt }) => {
           return (
             <Article key={id}>
               <Title>{title}</Title>
