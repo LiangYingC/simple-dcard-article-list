@@ -1,6 +1,7 @@
 import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import GlobalStyle from './styles/globalStyle';
+import useInfiniteScroll from './hooks/useInfiniteScroll';
 
 const Articles = styled.div`
   width: 70%;
@@ -36,9 +37,10 @@ interface Article {
 }
 
 const App: FC = () => {
+  console.log('render');
   const [articles, setArticles] = useState<Article[]>([]);
   const [lastArticleId, setLastArticleId] = useState<number | null>(null);
-  const [isFetchMore, setIsFetchMore] = useState(false);
+  const { isFetchMore, setIsFetchMore } = useInfiniteScroll();
 
   const articlesApiUrl =
     lastArticleId === null
@@ -62,7 +64,7 @@ const App: FC = () => {
           setIsFetchMore(false);
         });
     }
-  }, [isFetchMore, articlesApiUrl]);
+  }, [articlesApiUrl, isFetchMore, setIsFetchMore]);
 
   // when get new articles data will update lastArticleId
   useEffect(() => {
@@ -72,18 +74,6 @@ const App: FC = () => {
       setLastArticleId(newlastArticleId);
     }
   }, [articles]);
-
-  // turn on handleScroll event
-  function handleScroll() {
-    if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100 && !isFetchMore) {
-      setIsFetchMore(true);
-    }
-  }
-
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   return (
     <>
