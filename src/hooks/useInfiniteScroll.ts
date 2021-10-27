@@ -31,10 +31,9 @@ const useInfiniteScroll = <T>({
     setItems(prevItems => [...prevItems, ...newItems]);
   }, [newItems]);
 
-  const isScrollToThreshold =
-    window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
-
   const handleScroll = () => {
+    const isScrollToThreshold =
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
     if (isScrollToThreshold && !isFetchMore && hasMore) {
       setIsFetchMore(true);
     }
