@@ -4,7 +4,8 @@ import useLazyFetch from '../hooks/useLazyFetch';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
 import SpinnerLoader from '../components/SpinnerLoader';
 
-const apiDomain = 'http://localhost:3000';
+const apiDomain =
+  process.env.NODE_ENV === 'development' ? 'http://localhost:3000' : 'https://www.dcard.tw';
 const popularArticlesApiUrl = `${apiDomain}/v2/posts?popular=true`;
 
 const ArticlesWrapper = styled.div`
