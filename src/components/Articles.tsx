@@ -2,6 +2,7 @@ import { FC, useEffect, useState } from 'react';
 import styled from 'styled-components';
 import useLazyFetch from '../hooks/useLazyFetch';
 import useInfiniteScroll from '../hooks/useInfiniteScroll';
+import SpinnerLoader from '../components/SpinnerLoader';
 
 const apiDomain = 'http://localhost:3000';
 const popularArticlesApiUrl = `${apiDomain}/v2/posts?popular=true`;
@@ -53,7 +54,11 @@ const Articles: FC = () => {
       ? popularArticlesApiUrl
       : `${popularArticlesApiUrl}&before=${lastArticleId}`;
 
-  const { data: newArticles, fetchData: fetchArticles } = useLazyFetch<Article[]>({
+  const {
+    data: newArticles,
+    fetchData: fetchArticles,
+    isLoading,
+  } = useLazyFetch<Article[]>({
     url: articlesApiUrl,
     initialData: [],
   });
@@ -83,6 +88,7 @@ const Articles: FC = () => {
           </Article>
         );
       })}
+      {isLoading && <SpinnerLoader height="150px" />}
     </ArticlesWrapper>
   );
 };
