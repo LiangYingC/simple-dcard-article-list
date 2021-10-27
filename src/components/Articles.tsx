@@ -47,6 +47,8 @@ interface Article {
 
 const Articles: FC = () => {
   const [lastArticleId, setLastArticleId] = useState<number | null>(null);
+  const [hasMoreArticles, setHasMoreArticles] = useState(true);
+
   const articlesApiUrl =
     lastArticleId === null
       ? popularArticlesApiUrl
@@ -60,17 +62,23 @@ const Articles: FC = () => {
   const { items: allArticles } = useInfiniteScroll<Article>({
     newItems: newArticles,
     fetchMoreItemsFn: fetchArticles,
+    hasMore: hasMoreArticles,
   });
 
   const uniqueArticles = filterDuplicateIdArticles(allArticles);
 
   useEffect(() => {
     const articlesQty = allArticles.length;
-    if (articlesQty > 0) {
-      const newlastArticleId = allArticles[articlesQty - 1].id;
+    if (articlesQty === 0 || !hasMoreArticles) return;
+
+    const newlastArticleId = allArticles[articlesQty - 1].id;
+    if (newlastArticleId === lastArticleId) {
       setLastArticleId(newlastArticleId);
+    } else {
+      setHasMoreArticles(false);
     }
-  }, [allArticles]);
+  }, [allArticles, lastArticleId, hasMoreArticles]);
+
   return (
     <ArticlesWrapper>
       {uniqueArticles.map(({ id, title, excerpt }) => {
