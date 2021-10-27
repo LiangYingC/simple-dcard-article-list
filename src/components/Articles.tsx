@@ -65,15 +65,13 @@ const Articles: FC = () => {
 
   const uniqueArticles = filterDuplicateIdArticles(allArticles);
 
-  console.log({ uniqueArticles });
-
   useEffect(() => {
-    const articlesQty = allArticles.length;
-    if (articlesQty === 0) return;
+    const uniqueArticlesQty = uniqueArticles.length;
+    if (uniqueArticlesQty === 0) return;
 
-    const newlastArticleId = allArticles[articlesQty - 1].id;
+    const newlastArticleId = uniqueArticles[uniqueArticlesQty - 1].id;
     setLastArticleId(newlastArticleId);
-  }, [allArticles]);
+  }, [uniqueArticles]);
 
   return (
     <ArticlesWrapper>
