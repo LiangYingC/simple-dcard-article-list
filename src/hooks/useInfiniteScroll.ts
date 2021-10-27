@@ -4,14 +4,9 @@ import debounce from '../libs/debounce';
 interface UseInfiniteScrollParams<T> {
   newItems: T[];
   fetchMoreItemsFn: () => Promise<void>;
-  hasMore: boolean;
 }
 
-const useInfiniteScroll = <T>({
-  newItems,
-  fetchMoreItemsFn,
-  hasMore,
-}: UseInfiniteScrollParams<T>) => {
+const useInfiniteScroll = <T>({ newItems, fetchMoreItemsFn }: UseInfiniteScrollParams<T>) => {
   const [items, setItems] = useState<T[]>([]);
   const [isFetchMore, setIsFetchMore] = useState(false);
 
@@ -34,7 +29,7 @@ const useInfiniteScroll = <T>({
   const handleScroll = () => {
     const isScrollToThreshold =
       window.innerHeight + window.scrollY >= document.body.offsetHeight - 100;
-    if (isScrollToThreshold && !isFetchMore && hasMore) {
+    if (isScrollToThreshold && !isFetchMore) {
       setIsFetchMore(true);
     }
   };
