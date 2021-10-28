@@ -1,4 +1,4 @@
-# Simple-Decard-Reader
+# Simple-Dcard-Reader
 
 ## Scripts
 
@@ -7,7 +7,7 @@
 
 ## Feature
 
-- 透過打 Decard 提供的 API 製作一個擁有 infinite scroll 的簡單文章列表。
+- 透過打 Dcard 提供的 API 製作一個擁有 infinite scroll 的簡單文章列表。
 
 ## Designs
 
